@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>UCI|Places to go</title>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAyatX8lVABgjHpKi2Q9bNAn3LlMQZqiNE"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="script.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<!-- Code for facebook plugin -->
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	
+	<h1 id="title">Get Off Campus!!!</h1>
+	<aside id="sidebar">
+		<!-- This line displays the facebook page -->
+		<div class="fb-page" data-href="https://www.facebook.com/UCIrvine" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/UCIrvine"><a href="https://www.facebook.com/UCIrvine">University of California, Irvine</a></blockquote></div></div>
+    	
+    	<h2 style="text-align:center;color:#0000FF;">Places</h2>
+    	<input class="choice" type="button" onclick="panMap(33.6454,-117.8426, 'Aldrich Park')" value="UCI" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()"><br>
+	    <input class="choice" type="button" onclick="panMap(33.689800, -117.836138, 'Alton Pkwy, Irvine, CA 92606')" value="Diamond Jamboree" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()"><br>
+	    <input class="choice" type="button" onclick="panMap(33.616489, -117.875608, '401 Newport Center Dr')" value="Fashion Island" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		<input class="choice" type="button" onclick="panMap(33.651259, -117.743504, 'Irvine Spectrum')" value="Irvine Spectrum" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		<input class="choice" type="button" onclick="panMap(33.606883, -117.926118, 'W Balboa Blvd')" value="Newport Beach" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		<input class="choice" type="button" onclick="panMap(33.812961, -117.919041, 'Disney Land, CA')" value="Disney Land" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		
+    </aside>
+ 
+	<input id="searchBox" type="text" placeholder="Search Box" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+	<input id="btnSearch" type="button" onclick="searchBoxRoute()" value="Enter">
+	<div id="right-panel">
+		<h2 style="text-align:center;color:#0000FF;">Directions</h2>
+	</div>
+	<div id="googleMap"></div>
+	<input id="directions" type="button" onclick="makeRoute(new google.maps.LatLng(destination_lat,destination_lng))" value="Directions">
+	
+</body>
+</html>

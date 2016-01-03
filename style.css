@@ -1,0 +1,43 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #title{
+  	text-align:center;
+  	font-size:3em;
+  	color:#0000FF;
+  }
+  #sidebar{
+  	float:left;
+  	width:15%;
+  }
+  #googleMap {
+    height: 75%;
+    width: 60%;
+  }
+  #right-panel {
+	height: 75%;
+    float: right;
+    width: 25%;
+    overflow: auto;
+  }
+  .choice{
+  	font-weight:bold;
+  	width:210px;
+  	height: 25px;
+  	border-style:groove;
+  	border-color:#0101DF;
+  	background-color:#0000FF;
+  	color:#FFFF00;  	
+  }
+  .choice:hover{
+  	background-color:#58ACFA;
+  }
+  #searchBox{
+  	height: 25px;
+  	border-style:groove;
+  	border-color:#0101DF;
+  	background-color:#0000FF;
+  	color:#FFFF00; 
+  }
