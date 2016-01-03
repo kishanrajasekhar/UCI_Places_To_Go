@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>UCI|Places to go</title>
+<script
+src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAyatX8lVABgjHpKi2Q9bNAn3LlMQZqiNE">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+	//global variables
+	var map; 
+    //this draws the route on the map
+	var directionsService = new google.maps.DirectionsService;
+	var directionsDisplay = new google.maps.DirectionsRenderer;
+	//the destination coordinats from uci (if directions are requested)
+	//initially set to UCI itself
+	var destination_lat = 33.6454; 
+	var destination_lng = -117.8426;
+	//destination name (for the buttons)
+	var dest_name;
+	function initialize()
+	{
+		//uci coordinates 33.6454,-117.8426
+		//diamond jamboree coordinates: 33.689800, -117.836138.
+		
+		var mapOpt = {
+		  //center coordinates for UCI
+		  center:new google.maps.LatLng(33.6454,-117.8426), 
+		  zoom:15,
+		  mapTypeId:google.maps.MapTypeId.ROADMAP
+		  };
+		map=new google.maps.Map(document.getElementById("googleMap"),mapOpt);
+		
+		//puts marker on the map
+		/*var marker=new google.maps.Marker({
+	    	position:new google.maps.LatLng(33.6454,-117.8426),
+	        });
+	    marker.setMap(map);*/
+	   
+		//sets the route maker to this map
+  		directionsDisplay.setMap(map);
+  		//displays the side bar
+  		directionsDisplay.setPanel(document.getElementById('right-panel'));
+  		document.getElementById("directions").disabled = true;  
+  		makeRoute("Aldrich Park, Irvine"); 
+  		//for some reason, deleting the directions button at bottom
+  		//makes everything stop working. So I'm just going to hide it
+  		$("#directions").hide();
+	}
+    
+    //DOM = Document Object Model
+	google.maps.event.addDomListener(window, 'load', initialize);
+	
+	//other test functions
+	function panMap(lat, lng, name){
+		if(name == "UCI"){
+			document.getElementById("directions").value = "Directions";
+			document.getElementById("directions").disabled = true;
+		}else{
+			document.getElementById("directions").value = "Directions to " + name;
+			document.getElementById("directions").disabled = false;
+		}
+		var message = document.getElementById("message");
+		var latlng = new google.maps.LatLng(lat,lng);
+		map.panTo(latlng);
+		map.setZoom(15);
+		destination_lat = lat;
+		destination_lng = lng;
+		document.getElementById("searchBox").value = name;
+		//turns coordinates into the location name
+		var geocoder = new google.maps.Geocoder;
+		geocoder.geocode({'location': latlng}, function(results, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+		  if (results[1]) {
+		  	console.log(results[1].formatted_address);
+		    // map.setZoom(11);
+		    // var marker = new google.maps.Marker({
+		      // position: latlng,
+		      // map: map
+		    // });
+		    // infowindow.setContent(results[1].formatted_address);
+		    // infowindow.open(map, marker);
+		  } else {
+		    window.alert('No results found');
+		  }
+		} else {
+		  window.alert('Geocoder failed due to: ' + status);
+		    }
+		  });
+	}
+	
+	//map destination can either be a lat long object or a location name (a string)
+	function makeRoute(map_destination){
+		directionsService.route({
+	    origin: "pereira drive, irvine, ca",
+	    destination: map_destination,
+	    travelMode: google.maps.TravelMode.DRIVING
+	  }, function(response, status) {
+	    if (status === google.maps.DirectionsStatus.OK) {
+	      directionsDisplay.setDirections(response);
+	    } else {
+	      window.alert('Directions request failed due to ' + status);
+	    }
+	  });
+	}
+	
+	function searchBoxRoute(){
+		var input = document.getElementById("searchBox");
+		makeRoute(input.value);
+		input.value=""; //clear entry after search
+	}
+</script>
+<style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #title{
+      	text-align:center;
+      	font-size:3em;
+      	color:#0000FF;
+      }
+      #sidebar{
+      	float:left;
+      	width:15%;
+      }
+      #googleMap {
+        height: 75%;
+        width: 60%;
+        float:center;
+      }
+      #right-panel {
+		height: 75%;
+        float: right;
+        width: 25%;
+        overflow: auto;
+      }
+      .choice{
+      	font-weight:bold;
+      	width:210px;
+      	height: 25px;
+      	border-style:groove;
+      	border-color:#0101DF;
+      	background-color:#0000FF;
+      	color:#FFFF00;  	
+      }
+      .choice:hover{
+      	background-color:#58ACFA;
+      }
+      #searchBox{
+      	height: 25px;
+      	border-style:groove;
+      	border-color:#0101DF;
+      	background-color:#0000FF;
+      	color:#FFFF00; 
+      }
+</style>
+</head>
+
+<body>
+	<h1 id="title">Get Off Campus!!!</h1>
+	<aside id="sidebar">
+    	<h2 style="text-align:center;color:#0000FF;">Places</h2>
+    	<input class="choice" type="button" onclick="panMap(33.6454,-117.8426, 'Aldrich Park')" value="UCI" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()"><br>
+	    <input class="choice" type="button" onclick="panMap(33.689800, -117.836138, 'Alton Pkwy, Irvine, CA 92606')" value="Diamond Jamboree" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()"><br>
+	    <input class="choice" type="button" onclick="panMap(33.616489, -117.875608, '401 Newport Center Dr')" value="Fashion Island" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		<input class="choice" type="button" onclick="panMap(33.651259, -117.743504, 'Irvine Spectrum')" value="Irvine Spectrum" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		<input class="choice" type="button" onclick="panMap(33.606883, -117.926118, 'W Balboa Blvd')" value="Newport Beach" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		<input class="choice" type="button" onclick="panMap(33.812961, -117.919041, 'Disney Land, CA')" value="Disney Land" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+		
+    </aside>
+ 
+	<input id="searchBox" type="text" placeholder="Search Box" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+	<input id="btnSearch" type="button" onclick="searchBoxRoute()" value="Enter">
+	<div id="right-panel">
+		<h2 style="text-align:center;color:#0000FF;">Directions</h2>
+	</div>
+	<div id="googleMap"></div>
+	<input id="directions" type="button" onclick="makeRoute(new google.maps.LatLng(destination_lat,destination_lng))" value="Directions">
+</body>
+</html>
