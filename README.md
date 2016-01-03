@@ -1,3 +1,3 @@
 # UCI_Places_To_Go
 
-Has a list of places to go from UCI, using Google Maps API
+The webpage displays a list of locations, which the user can click on. After clicking on the location, the map pans to that area.
